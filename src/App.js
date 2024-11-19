@@ -4,11 +4,13 @@ import Dashboard from "./pages/dashboard/Dashboard";
 import Home from "./components/dashboard/Home";
 import ApplyLeave from "./components/leave/ApplyLeave";
 import ViewLeaves from "./components/leave/ViewLeaves";
+import Registeration from "./components/registeration/Registeration";
 
 function App() {
   const myRouter = createBrowserRouter([
     {path:'', Component:Login},
     {path:'/login', Component:Login},
+    {path:'/register', Component:Registeration},
     {path:'/dashboard', Component:Dashboard, children:[
       {path:'home', Component:Home},
       {path:'apply-leave', Component:ApplyLeave},

@@ -1,9 +1,13 @@
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { motion } from "framer-motion";
 import { loginImage } from '../../assets/Images/utils'
 import { useState } from "react";
+import {signInWithEmailAndPassword } from 'firebase/auth';
+import { auth } from '../../firebase/Firebase';
 
 const Login = () => {
+  const navigate = useNavigate();
+  const [error, setError] = useState('');
   const [formData, setFormData] = useState({
     email: '',
     password: ''
@@ -15,6 +19,19 @@ const Login = () => {
       ...prevData,
       [name] : value
     }))
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    const { email, password } = formData;
+    try {
+      const userCredential = await signInWithEmailAndPassword(auth, email, password);
+      console.log('User signed in:', userCredential.user);
+      navigate('/dashboard'); // Navigate to dashboard after successful login
+    } catch (error) {
+      console.error('Error during login:', error);
+      setError('Invalid email or password. Please try again.'); // Set error message
+    }
   };
 
   return (
@@ -37,7 +54,7 @@ const Login = () => {
         className='max-w-md w-full bg-white p-6 ' 
       >
         <h2 className='mb-10 mt-4 font-bold text-2xl text-gray-700 text-tight font-bolder'>Sign in to your account</h2>
-          <form  >
+          <form  onSubmit={handleSubmit}>
             <div className='my-4 mt-4 '>
               <label htmlFor="email" className='block text-black text-sm   font-medium  mb-2'>
                 Email address

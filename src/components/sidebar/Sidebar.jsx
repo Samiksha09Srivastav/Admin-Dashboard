@@ -1,10 +1,12 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
+import { AuthContext } from '../../context/AuthContext';
 import { Link, NavLink } from 'react-router-dom';
 import { AiOutlineHome } from "react-icons/ai";
 import { FaClockRotateLeft } from "react-icons/fa6";
 import { RiRefund2Fill, RiAdminFill, RiSettings2Fill  } from "react-icons/ri";
 
 const Sidebar = () => {
+  const { userRole } = useContext(AuthContext);
   const [isClaimHovered, setIsClaimHovered] = useState(false);
   const [isLeaveHovered, setIsLeaveHovered] = useState(false);
   const [isAdminHovered, setIsAdminHovered] = useState(false);
@@ -85,7 +87,8 @@ const Sidebar = () => {
             Setting
           </Link>
           <hr className='my-4 border-gray-100' />
-          <div 
+          { userRole === 'admin' && (
+            <div 
             className='relative'
             onMouseEnter={() => setIsAdminHovered(true)}
             onMouseLeave={() => setIsAdminHovered(false)}
@@ -125,6 +128,8 @@ const Sidebar = () => {
               </div>
             )}
           </div>
+          )}
+          
         </div>
       </div>
     </main>
